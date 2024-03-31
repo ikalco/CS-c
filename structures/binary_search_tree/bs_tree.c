@@ -29,20 +29,17 @@ void inorder_destroy(BSTN *root, BSTN **arr, int *index) {
 }
 
 bool BST_destroy(BST *bst) {
-	BSTN **arr = malloc(sizeof(BSTN *) * (bst->nodes + 1));
+	BSTN **arr = malloc(sizeof(BSTN *) * bst->nodes);
 
 	int index = 0;
 	inorder_destroy(bst->root, arr, &index);
 
 	if (index != bst->nodes) return false;
 
-	for (; index >= 0; index--) {
+	for (index -= 1; index >= 0; index--) {
 		if (arr[index] == NULL) continue;
-		printf("%p\n", arr[index]);
 		free(arr[index]);
 	}
-
-	printf("1 %p\n", arr);
 
 	free(arr);
 

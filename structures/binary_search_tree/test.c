@@ -122,11 +122,11 @@ int test_remove2() {}
 int run_tests() {
 	int failed = 0;
 
-	// failed += test_insert();
-	// failed += test_search();
+	failed += test_insert();
+	failed += test_search();
 	failed += test_remove0();
 	failed += test_remove1();
-	// failed += test_remove2();
+	failed += test_remove2();
 
 	return failed;
 }
