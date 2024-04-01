@@ -17,6 +17,8 @@ int test1() {
 		return 1;
 	}
 
+	if (DynamicArray_destroy(values) == false) return 1;
+
 	return LinkedList_destroy(ll) != true;
 }
 
