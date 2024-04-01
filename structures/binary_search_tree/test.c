@@ -117,7 +117,27 @@ int test_remove1() {
 	return 0;
 }
 
-int test_remove2() {}
+int test_remove2() {
+	BST *bst = BST_create();
+
+	ASSERT(BST_insert(bst, 50), true);
+	ASSERT(BST_insert(bst, 30), true);
+	ASSERT(BST_insert(bst, 20), true);
+	ASSERT(BST_insert(bst, 40), true);
+	ASSERT(BST_insert(bst, 70), true);
+	ASSERT(BST_insert(bst, 60), true);
+	ASSERT(BST_insert(bst, 80), true);
+
+	EQUALS(bst, ((int[]){20, 30, 40, 50, 60, 70, 80}));
+
+	ASSERT(BST_remove(bst, 50), true);
+
+	EQUALS(bst, ((int[]){20, 30, 40, 60, 70, 80}));
+
+	ASSERT(BST_destroy(bst), true);
+
+	return 0;
+}
 
 int run_tests() {
 	int failed = 0;

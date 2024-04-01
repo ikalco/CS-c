@@ -34,7 +34,10 @@ bool BST_destroy(BST *bst) {
 	int index = 0;
 	inorder_destroy(bst->root, arr, &index);
 
-	if (index != bst->nodes) return false;
+	if (index != bst->nodes) {
+		free(arr);
+		return false;
+	}
 
 	for (index -= 1; index >= 0; index--) {
 		if (arr[index] == NULL) continue;
@@ -150,7 +153,6 @@ bool BST_remove(BST *bst, int key) {
 		BST_remove(bst, new_root->value);
 
 		root->value = value;
-		bst->nodes--;
 		return true;
 	}
 
