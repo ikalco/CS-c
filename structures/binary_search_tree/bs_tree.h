@@ -1,7 +1,6 @@
 #ifndef BINARY_TREE_H
 #define BINARY_TREE_H
 
-#include "../dynamic_array/dynamic_array.h"
 #include <stdbool.h>
 
 typedef struct BSTN {
@@ -21,6 +20,8 @@ bool BST_destroy(BST *bst);
 bool BST_insert(BST *bst, int val);
 bool BST_remove(BST *bst, int key);
 BSTN *BST_search(BST *bst, int key);
-DynamicArray *BST_inorder(BST *bst);
+int *BST_inorder(BST *bst);
+int *BST_preorder(BST *bst);
+int *BST_postorder(BST *bst);
 
 #endif

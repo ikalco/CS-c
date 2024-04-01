@@ -161,20 +161,62 @@ bool BST_remove(BST *bst, int key) {
 	return true;
 }
 
-void inorder(BSTN *root, DynamicArray *arr) {
+void inorder(BSTN *root, int *arr, int *index) {
 	if (root == NULL) return;
 
-	inorder(root->left, arr);
+	inorder(root->left, arr, index);
 
-	DynamicArray_pushback(arr, root->value);
+	arr[*index] = root->value;
+	(*index)++;
 
-	inorder(root->right, arr);
+	inorder(root->right, arr, index);
 }
 
-DynamicArray *BST_inorder(BST *bst) {
-	DynamicArray *arr = DynamicArray_create(bst->nodes);
+int *BST_inorder(BST *bst) {
+	int *arr = malloc(sizeof(int[bst->nodes]));
 
-	inorder(bst->root, arr);
+	int index = 0;
+	inorder(bst->root, arr, &index);
+
+	return arr;
+}
+
+void preorder(BSTN *root, int *arr, int *index) {
+	if (root == NULL) return;
+
+	arr[*index] = root->value;
+	(*index)++;
+
+	preorder(root->left, arr, index);
+
+	preorder(root->right, arr, index);
+}
+
+int *BST_preorder(BST *bst) {
+	int *arr = malloc(sizeof(int[bst->nodes]));
+
+	int index = 0;
+	preorder(bst->root, arr, &index);
+
+	return arr;
+}
+
+void postorder(BSTN *root, int *arr, int *index) {
+	if (root == NULL) return;
+
+	postorder(root->left, arr, index);
+
+	postorder(root->right, arr, index);
+
+	arr[*index] = root->value;
+	(*index)++;
+}
+
+int *BST_postorder(BST *bst) {
+	int *arr = malloc(sizeof(int[bst->nodes]));
+
+	int index = 0;
+	postorder(bst->root, arr, &index);
 
 	return arr;
 }

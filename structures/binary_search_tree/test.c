@@ -1,5 +1,6 @@
 #include "bs_tree.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 #define ASSERT(a, b)                                                           \
 	if (a != b) {                                                              \
@@ -13,18 +14,17 @@
 		return 1;                                                              \
 	}
 
-#define EQUALS(bst, expected) ASSERT(equals(bst, expected), 0);
+#define EQUALS(bst, expected)                                                  \
+	ASSERT(equals(BST_inorder(bst), expected, bst->nodes), 0);
 
-int equals(BST *bst, int *expected) {
-	DynamicArray *inorder = BST_inorder(bst);
+int equals(int *arr, int *expected, int size) {
+	NASSERT(arr, NULL);
 
-	NASSERT(inorder, NULL);
-
-	for (int i = 0; i < bst->nodes; i++) {
-		ASSERT(DynamicArray_get(inorder, i), expected[i]);
+	for (int i = 0; i < size; i++) {
+		ASSERT(arr[i], expected[i]);
 	}
 
-	ASSERT(DynamicArray_destroy(inorder), true);
+	free(arr);
 
 	return 0;
 }
@@ -139,6 +139,30 @@ int test_remove2() {
 	return 0;
 }
 
+int test_order() {
+	BST *bst = BST_create();
+
+	ASSERT(BST_insert(bst, 100), true);
+	ASSERT(BST_insert(bst, 20), true);
+	ASSERT(BST_insert(bst, 10), true);
+	ASSERT(BST_insert(bst, 30), true);
+	ASSERT(BST_insert(bst, 200), true);
+	ASSERT(BST_insert(bst, 150), true);
+	ASSERT(BST_insert(bst, 300), true);
+
+	equals(
+		BST_inorder(bst), (int[]){10, 20, 30, 100, 150, 200, 300}, bst->nodes
+	);
+	equals(
+		BST_preorder(bst), (int[]){100, 20, 10, 30, 200, 150, 300}, bst->nodes
+	);
+	equals(
+		BST_postorder(bst), (int[]){10, 30, 20, 150, 300, 200, 100}, bst->nodes
+	);
+
+	return 0;
+}
+
 int run_tests() {
 	int failed = 0;
 
@@ -147,6 +171,7 @@ int run_tests() {
 	failed += test_remove0();
 	failed += test_remove1();
 	failed += test_remove2();
+	failed += test_order();
 
 	return failed;
 }
